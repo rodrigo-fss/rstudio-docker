@@ -1,0 +1,12 @@
+FROM rocker/rstudio-stable:devel
+## Work-around to make Docker Hub use the Dockerfile from https://github.com/rocker-org/rocker-versioned/rstudio
+
+FROM r-base:latest
+
+RUN mkdir -p /usr/local/src/r_packages
+COPY ./Plumber.R /usr/local/src/r_packages
+WORKDIR /usr/local/src/r_packages
+
+RUN R -e 'install.packages("plumber")'
+CMD ["Rscript", "myscript.R"]
+RUN bash -c 'echo -e "funcionou"'
